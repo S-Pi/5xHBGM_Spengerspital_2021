@@ -9,8 +9,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -23,9 +23,9 @@ public class MedicationRepositoryTest {
     @Test
     @Transactional
     public void TestSaveOneMedication(){
-        Set<Identifier> identifiers = new HashSet<>();
-        Set<Coding> codings = new HashSet<>();
-        Set<Ingredient> ingredients = new HashSet<>();
+        List<Identifier> identifiers = new ArrayList<>();
+        List<Coding> codings = new ArrayList<>();
+        List<Ingredient> ingredients = new ArrayList<>();
 
         codings.add(new Coding("System", "0.1.1", "Code", "<div>...<div>", false));
         Period period = new Period(LocalDateTime.of(2000, 01,01,1,1), LocalDateTime.of(2001,01,01,1,1));
@@ -40,7 +40,7 @@ public class MedicationRepositoryTest {
         LocalDateTime ldt = LocalDateTime.of(2010, 01,01,1,1);
         Batch b1 = new Batch("123a", ldt);
 
-        Medication m1 = new Medication(identifiers, ccType, Medication.statusEnum.active, r1, ccType, rat1, ingredients, b1);
+        Medication m1 = new Medication(identifiers, ccType, Medication.StatusEnum.active, r1, ccType, rat1, ingredients, b1);
         Medication savedMedication = medicationRepository.save(m1);
         Medication loadedMedication = medicationRepository.findById(m1.getId()).get();
 

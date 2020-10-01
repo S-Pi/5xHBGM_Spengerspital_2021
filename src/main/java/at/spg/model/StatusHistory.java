@@ -1,6 +1,7 @@
 package at.spg.model;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -37,10 +38,11 @@ public class StatusHistory extends BackboneElement{
         }
     }
 
-    @Column(name="status")
     @Enumerated(EnumType.STRING)
+    @Column(name="status")
     private EncounterStatus status;
-    @Column(name="Period")
+    
+    @Embedded
     private Period period;
 
     public EncounterStatus getStatus() {

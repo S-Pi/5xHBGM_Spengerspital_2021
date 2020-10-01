@@ -41,12 +41,16 @@ public class Quantity extends Element{
 
     @Column(name="value")
     private double value;
+    
     @Enumerated(EnumType.STRING)
     private ComparatorCode comperator;
+    
     @Column(name="unit")
     private String unit;
+    
     @Column(name="system")
     private String system;
+    
     @Column(name="code")
     private String code;
 

@@ -55,7 +55,7 @@ public class EncounterController {
                             encounter.setAppointment(encounterDetails.getAppointment());
                             encounter.setPeriod(encounterDetails.getPeriod());
                             encounter.setReasonReference(encounterDetails.getReasonReference());
-                            encounter.setDiagnoses(encounterDetails.getDiagnoses());
+                            encounter.setDiagnosis(encounterDetails.getDiagnosis());
                             encounter.setPartOf(encounterDetails.getPartOf());
 
                             Encounter updatedEncounter = encounterRepository.save(encounter);

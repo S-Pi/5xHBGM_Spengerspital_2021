@@ -1,50 +1,56 @@
 package at.spg.model;
 
 import javax.persistence.*;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.Objects;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 public class HumanName extends Element{
-    public enum UseCode{
+    
+	public enum UseCode{
         usual , official , temp , nickname , anonymous , old , maiden
     }
-    @Enumerated(EnumType.STRING)
+    
+	@Enumerated(EnumType.STRING)
     @Column(name = "hn_use")
     private UseCode use;
-    /**
+    
+	/**
      *     Text representation of the full name
      */
     @Column(name = "hn_text")
     private String text;
+    
     /**
      * Family name (often called 'Surname')
      */
     @Column(name = "hn_family")
     private String family;
+    
     /**
      * Given names (not always 'first'). Includes middle names
      * This repeating element order: Given Names appear in the correct order for presenting the name
      */
     @Column(name = "hn_given")
     private String given;
+    
     /**
      * Parts that come before the name
      * This repeating element order: Prefixes appear in the correct order for presenting the name
      */
     @ElementCollection
     @CollectionTable(name = "humanname_prefix", joinColumns = @JoinColumn(name = "id"))
-    @Column(name = "hn_prefix")
-    private Set<String> prefix;
+    private List<String> prefix;
+    
     /**
      * Parts that come after the name
      * This repeating element order: Suffixes appear in the correct order for presenting the name
      */
     @ElementCollection
     @CollectionTable(name = "humanname_surfix", joinColumns = @JoinColumn(name = "id"))
-    @Column(name = "hn_surfix")
-    private Set<String> surfix = new HashSet<>();
+    private List<String> surfix = new ArrayList<>();
+    
     /**
      * Time period when name was/is in use
      */
@@ -94,19 +100,19 @@ public class HumanName extends Element{
         this.given = given;
     }
 
-    public Set<String> getPrefix() {
+    public List<String> getPrefix() {
         return prefix;
     }
 
-    public void setPrefix(Set<String> prefix) {
+    public void setPrefix(List<String> prefix) {
         this.prefix = prefix;
     }
 
-    public Set<String> getSurfix() {
+    public List<String> getSurfix() {
         return surfix;
     }
 
-    public void setSurfix(Set<String> surfix) {
+    public void setSurfix(List<String> surfix) {
         this.surfix = surfix;
     }
 

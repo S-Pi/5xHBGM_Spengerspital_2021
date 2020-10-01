@@ -1,12 +1,12 @@
 package at.spg.model;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 public class Reference extends Element{
 
-    public Reference(String reference, String type, Set<Identifier> identifier, String display) {
+    public Reference(String reference, String type, List<Identifier> identifier, String display) {
         this.reference = reference;
         this.type = type;
         this.identifier = identifier;
@@ -18,11 +18,14 @@ public class Reference extends Element{
 
     @Column(name="reference")
     private String reference;
+    
     @Column(name="type")
     private String type;
-    @OneToMany(cascade = CascadeType.ALL,targetEntity = Identifier.class)
+    
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "i_ref_fk", referencedColumnName = "id")
-    private Set<Identifier> identifier;
+    private List<Identifier> identifier;
+    
     @Column(name="display")
     private String display;
 
@@ -42,11 +45,11 @@ public class Reference extends Element{
         this.type = type;
     }
 
-    public Set<Identifier> getIdentifier() {
+    public List<Identifier> getIdentifier() {
         return identifier;
     }
 
-    public void setIdentifier(Set<Identifier> identifier) {
+    public void setIdentifier(List<Identifier> identifier) {
         this.identifier = identifier;
     }
 

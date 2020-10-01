@@ -9,7 +9,7 @@ public class ContactPoint extends Element{
     public ContactPoint() {
     }
 
-    public ContactPoint(system systemEnum, String value, use useEnum, int rank, Period period) {
+    public ContactPoint(SystemCode systemEnum, String value, UseCode useEnum, int rank, Period period) {
         this.systemEnum = systemEnum;
         this.value = value;
         this.useEnum = useEnum;
@@ -17,39 +17,25 @@ public class ContactPoint extends Element{
         this.period = period;
     }
 
-    public enum system{
+    public enum SystemCode{
         phone, fax, email, pager, url, sms, other
     }
 
-    public enum use{
+    public enum UseCode{
         home, work, temp, old, mobile
     }
 
     @Enumerated(EnumType.STRING)
-    private system systemEnum;
+    private SystemCode systemEnum;
+    
     @Column(name="cp_value")
     private String value;
     @Enumerated(EnumType.STRING)
-    private use useEnum;
+    private UseCode useEnum;
     @Column(name="cp_rank")
     private int rank;
     @Embedded
     private Period period;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ContactPoint that = (ContactPoint) o;
-        return rank == that.rank &&
-                systemEnum == that.systemEnum &&
-                Objects.equals(value, that.value) &&
-                useEnum == that.useEnum &&
-                Objects.equals(period, that.period);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(systemEnum, value, useEnum, rank, period);
-    }
+    
 }

@@ -17,6 +17,7 @@ public class Batch extends BackboneElement{
 
     @Column(name="lotNumber")
     private String lotNumber;
+    
     @Column(name="expirationDate")
     private LocalDateTime expirationDate;
 

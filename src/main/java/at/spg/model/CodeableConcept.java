@@ -1,7 +1,7 @@
 package at.spg.model;
 
 import java.util.Objects;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,22 +15,23 @@ public class CodeableConcept extends Element{
 	
 	public CodeableConcept() {super();}
 	
-	public CodeableConcept(Set<Coding> coding, String text) {
+	public CodeableConcept(List<Coding> coding, String text) {
 		super();
 		this.coding = coding;
 		this.text = text;
 	}
 	
-	@OneToMany(cascade = CascadeType.ALL,targetEntity = Coding.class,fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "c_codeableconcept_fk", referencedColumnName = "id")
-	private Set<Coding> coding;
+	private List<Coding> coding;
+	
 	@Column(name="cc_text")
 	private String text;
 	
-	public Set<Coding> getCoding() {
+	public List<Coding> getCoding() {
 		return coding;
 	}
-	public void setCoding(Set<Coding> coding) {
+	public void setCoding(List<Coding> coding) {
 		this.coding = coding;
 	}
 	public String getText() {
@@ -40,18 +41,4 @@ public class CodeableConcept extends Element{
 		this.text = text;
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		if (!super.equals(o)) return false;
-		CodeableConcept that = (CodeableConcept) o;
-		return Objects.equals(coding, that.coding) &&
-				Objects.equals(text, that.text);
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(super.hashCode(), coding, text);
-	}
 }

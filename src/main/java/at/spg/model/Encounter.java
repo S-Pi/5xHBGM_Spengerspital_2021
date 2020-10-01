@@ -2,191 +2,219 @@ package at.spg.model;
 
 import javax.persistence.*;
 import java.util.Objects;
-import java.util.Set;
+import java.util.List;
 
 @Entity
-public class Encounter extends DomainResource{
+public class Encounter extends DomainResource {
 
-    public Encounter() {
+	public Encounter() {
+	}
+
+	public Encounter(List<Identifier> identifier, StatusCode status, List<StatusHistory> statusHistory,
+			List<CodeableConcept> type, Reference subject, List<Reference> episodeOfCare, List<Participant> participant,
+			List<Reference> appointment, Period period, List<Reference> reasonReference, List<Diagnosis> diagnosis,
+			Reference partOf) {
+		this.identifier = identifier;
+		this.status = status;
+		this.statusHistory = statusHistory;
+		this.type = type;
+		this.subject = subject;
+		this.episodeOfCare = episodeOfCare;
+		this.participant = participant;
+		this.appointment = appointment;
+		this.period = period;
+		this.reasonReference = reasonReference;
+		this.diagnosis = diagnosis;
+		this.partOf = partOf;
+	}
+
+	
+
+	public enum StatusCode {
+        planned("planned"),
+        arrived("arrived"),
+        triaged("triaged"),
+        inprogress("in-progress"), // - wäre in Java nicht erlaubt, so funktioniert es
+        onleave("onleave"),
+        finished("finished"),
+        cancelled("cancelled");
+
+         private String value;
+         private StatusCode(String value)
+        {
+            this.value = value;
+        }
+
+        public String toString()
+        {
+            return this.value;
+        }
     }
+	
+	@OneToMany(cascade = CascadeType.ALL, targetEntity = Identifier.class)
+	@JoinColumn(name = "i_encounter_fk", referencedColumnName = "id")
+	private List<Identifier> identifier;
+	
+	@Enumerated(EnumType.STRING)
+	private StatusCode status;
+	
+	@OneToMany(cascade = CascadeType.ALL, targetEntity = StatusHistory.class)
+	@JoinColumn(name = "en_statushistory_fk", referencedColumnName = "id")
+	private List<StatusHistory> statusHistory;
+	
+	@OneToMany(cascade = CascadeType.ALL, targetEntity = CodeableConcept.class)
+	@JoinColumn(name = "en_codeableconcept_fk", referencedColumnName = "id")
+	private List<CodeableConcept> type;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "enc_subject_reference_fk", referencedColumnName = "id")
+	private Reference subject;
+	
+	@OneToMany(cascade = CascadeType.ALL, targetEntity = Reference.class)
+	@JoinColumn(name = "enc_epOfCa_reference_fk", referencedColumnName = "id")
+	private List<Reference> episodeOfCare;
+	
+	@OneToMany(cascade = CascadeType.ALL, targetEntity = Participant.class)
+	@JoinColumn(name = "part_encounter_fk", referencedColumnName = "id")
+	private List<Participant> participant;
+	
+	@OneToMany(cascade = CascadeType.ALL, targetEntity = Reference.class)
+	@JoinColumn(name = "enc_appointment_reference_fk", referencedColumnName = "id")
+	private List<Reference> appointment;
+	
+	@Column(name = "period")
+	private Period period;
+	
+	@OneToMany(cascade = CascadeType.ALL, targetEntity = Reference.class)
+	@JoinColumn(name = "enc_reason_reference_fk", referencedColumnName = "id")
+	private List<Reference> reasonReference;
+	
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "enc_diagnosis_fk", referencedColumnName = "id")
+	
+	private List<Diagnosis> diagnosis;
 
-    public Encounter(Set<Identifier> identifier, statusEnum status, Set<StatusHistory> statusHistory, Set<CodeableConcept> type, Reference subject, Set<Reference> episodeOfCare, Set<Participant> participant, Set<Reference> appointment, Period period, Set<Reference> reasonReference, Set<Diagnosis> diagnoses, Reference partOf) {
-        this.identifier = identifier;
-        this.status = status;
-        this.statusHistory = statusHistory;
-        this.type = type;
-        this.subject = subject;
-        this.episodeOfCare = episodeOfCare;
-        this.participant = participant;
-        this.appointment = appointment;
-        this.period = period;
-        this.reasonReference = reasonReference;
-        this.diagnoses = diagnoses;
-        this.partOf = partOf;
-    }
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "enc_partOf_reference_fk", referencedColumnName = "id")
+	private Reference partOf;
 
-    public enum statusEnum{
-        planned, arrived, triaged, in_progress, onleave, finished, cancelled
-    }
+	public List<Identifier> getIdentifier() {
+		return identifier;
+	}
 
-    @OneToMany(cascade = CascadeType.ALL,targetEntity = Identifier.class)
-    @JoinColumn(name = "i_encounter_fk", referencedColumnName = "id")
-    private Set<Identifier> identifier;
-    @Enumerated(EnumType.STRING)
-    private statusEnum status;
-    @OneToMany(cascade = CascadeType.ALL, targetEntity = StatusHistory.class)
-    @JoinColumn(name = "en_statushistory_fk", referencedColumnName = "id")
-    private Set<StatusHistory> statusHistory;
-    @OneToMany(cascade = CascadeType.ALL, targetEntity = CodeableConcept.class)
-    @JoinColumn(name="en_codeableconcept_fk", referencedColumnName="id")
-    private Set<CodeableConcept> type;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="enc_subject_reference_fk", referencedColumnName="id")
-    private Reference subject;
-    @OneToMany(cascade = CascadeType.ALL,targetEntity = Reference.class)
-    @JoinColumn(name = "enc_epOfCa_reference_fk", referencedColumnName = "id")
-    @Column(name="episodeOfCare")
-    private Set<Reference> episodeOfCare;
-    @OneToMany(cascade = CascadeType.ALL,targetEntity = Participant.class)
-    @JoinColumn(name = "part_encounter_fk", referencedColumnName = "id")
-    @Column(name="participant")
-    private Set<Participant> participant;
-    @OneToMany(cascade = CascadeType.ALL,targetEntity = Reference.class)
-    @JoinColumn(name = "enc_appointment_reference_fk", referencedColumnName = "id")
-    @Column(name="appointment")
-    private Set<Reference> appointment;
-    @Column(name="period")
-    private Period period;
-    @OneToMany(cascade = CascadeType.ALL,targetEntity = Reference.class)
-    @JoinColumn(name = "enc_reason_reference_fk", referencedColumnName = "id")
-    @Column(name="reasonReference")
-    private Set<Reference> reasonReference;
-    @OneToMany(cascade = CascadeType.ALL,targetEntity = Diagnosis.class)
-    @JoinColumn(name = "enc_diagnosis_fk", referencedColumnName = "id")
-    @Column(name="reasonReference")
-    private Set<Diagnosis> diagnoses;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="enc_partOf_reference_fk", referencedColumnName="id")
-    private Reference partOf;
+	public void setIdentifier(List<Identifier> identifier) {
+		this.identifier = identifier;
+	}
 
-    public Set<Identifier> getIdentifier() {
-        return identifier;
-    }
+	public StatusCode getStatus() {
+		return status;
+	}
 
-    public void setIdentifier(Set<Identifier> identifier) {
-        this.identifier = identifier;
-    }
+	public void setStatus(StatusCode status) {
+		this.status = status;
+	}
 
-    public statusEnum getStatus() {
-        return status;
-    }
+	public List<StatusHistory> getStatusHistory() {
+		return statusHistory;
+	}
 
-    public void setStatus(statusEnum status) {
-        this.status = status;
-    }
+	public void setStatusHistory(List<StatusHistory> statusHistory) {
+		this.statusHistory = statusHistory;
+	}
 
-    public Set<StatusHistory> getStatusHistory() {
-        return statusHistory;
-    }
+	public List<CodeableConcept> getType() {
+		return type;
+	}
 
-    public void setStatusHistory(Set<StatusHistory> statusHistory) {
-        this.statusHistory = statusHistory;
-    }
+	public void setType(List<CodeableConcept> type) {
+		this.type = type;
+	}
 
-    public Set<CodeableConcept> getType() {
-        return type;
-    }
+	public Reference getSubject() {
+		return subject;
+	}
 
-    public void setType(Set<CodeableConcept> type) {
-        this.type = type;
-    }
+	public void setSubject(Reference subject) {
+		this.subject = subject;
+	}
 
-    public Reference getSubject() {
-        return subject;
-    }
+	public List<Reference> getEpisodeOfCare() {
+		return episodeOfCare;
+	}
 
-    public void setSubject(Reference subject) {
-        this.subject = subject;
-    }
+	public void setEpisodeOfCare(List<Reference> episodeOfCare) {
+		this.episodeOfCare = episodeOfCare;
+	}
 
-    public Set<Reference> getEpisodeOfCare() {
-        return episodeOfCare;
-    }
+	public List<Participant> getParticipant() {
+		return participant;
+	}
 
-    public void setEpisodeOfCare(Set<Reference> episodeOfCare) {
-        this.episodeOfCare = episodeOfCare;
-    }
+	public void setParticipant(List<Participant> participant) {
+		this.participant = participant;
+	}
 
-    public Set<Participant> getParticipant() {
-        return participant;
-    }
+	public List<Reference> getAppointment() {
+		return appointment;
+	}
 
-    public void setParticipant(Set<Participant> participant) {
-        this.participant = participant;
-    }
+	public void setAppointment(List<Reference> appointment) {
+		this.appointment = appointment;
+	}
 
-    public Set<Reference> getAppointment() {
-        return appointment;
-    }
+	public Period getPeriod() {
+		return period;
+	}
 
-    public void setAppointment(Set<Reference> appointment) {
-        this.appointment = appointment;
-    }
+	public void setPeriod(Period period) {
+		this.period = period;
+	}
 
-    public Period getPeriod() {
-        return period;
-    }
+	public List<Reference> getReasonReference() {
+		return reasonReference;
+	}
 
-    public void setPeriod(Period period) {
-        this.period = period;
-    }
+	public void setReasonReference(List<Reference> reasonReference) {
+		this.reasonReference = reasonReference;
+	}
 
-    public Set<Reference> getReasonReference() {
-        return reasonReference;
-    }
+	public List<Diagnosis> getDiagnosis() {
+		return diagnosis;
+	}
 
-    public void setReasonReference(Set<Reference> reasonReference) {
-        this.reasonReference = reasonReference;
-    }
+	public void setDiagnosis(List<Diagnosis> diagnosis) {
+		this.diagnosis = diagnosis;
+	}
 
-    public Set<Diagnosis> getDiagnoses() {
-        return diagnoses;
-    }
+	public Reference getPartOf() {
+		return partOf;
+	}
 
-    public void setDiagnoses(Set<Diagnosis> diagnoses) {
-        this.diagnoses = diagnoses;
-    }
+	public void setPartOf(Reference partOf) {
+		this.partOf = partOf;
+	}
 
-    public Reference getPartOf() {
-        return partOf;
-    }
+	@Override
+	public boolean equals(Object o) {
+		if (this == o)
+			return true;
+		if (o == null || getClass() != o.getClass())
+			return false;
+		if (!super.equals(o))
+			return false;
+		Encounter encounter = (Encounter) o;
+		return Objects.equals(identifier, encounter.identifier) && status == encounter.status
+				&& Objects.equals(statusHistory, encounter.statusHistory) && Objects.equals(type, encounter.type)
+				&& Objects.equals(subject, encounter.subject) && Objects.equals(episodeOfCare, encounter.episodeOfCare)
+				&& Objects.equals(participant, encounter.participant)
+				&& Objects.equals(appointment, encounter.appointment) && Objects.equals(period, encounter.period)
+				&& Objects.equals(reasonReference, encounter.reasonReference)
+				&& Objects.equals(diagnosis, encounter.diagnosis) && Objects.equals(partOf, encounter.partOf);
+	}
 
-    public void setPartOf(Reference partOf) {
-        this.partOf = partOf;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-        Encounter encounter = (Encounter) o;
-        return Objects.equals(identifier, encounter.identifier) &&
-                status == encounter.status &&
-                Objects.equals(statusHistory, encounter.statusHistory) &&
-                Objects.equals(type, encounter.type) &&
-                Objects.equals(subject, encounter.subject) &&
-                Objects.equals(episodeOfCare, encounter.episodeOfCare) &&
-                Objects.equals(participant, encounter.participant) &&
-                Objects.equals(appointment, encounter.appointment) &&
-                Objects.equals(period, encounter.period) &&
-                Objects.equals(reasonReference, encounter.reasonReference) &&
-                Objects.equals(diagnoses, encounter.diagnoses) &&
-                Objects.equals(partOf, encounter.partOf);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), identifier, status, statusHistory, type, subject, episodeOfCare, participant, appointment, period, reasonReference, diagnoses, partOf);
-    }
+	@Override
+	public int hashCode() {
+		return Objects.hash(super.hashCode(), identifier, status, statusHistory, type, subject, episodeOfCare,
+				participant, appointment, period, reasonReference, diagnosis, partOf);
+	}
 }

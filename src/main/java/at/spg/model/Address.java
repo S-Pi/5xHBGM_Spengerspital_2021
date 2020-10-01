@@ -1,7 +1,11 @@
 package at.spg.model;
 
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+
 import java.util.Objects;
 
 @Entity
@@ -10,7 +14,7 @@ public class Address extends Element {
     public Address() {
     }
 
-    public Address(useEnum use, typeEnum type, String text, String line, String city, String district, String state, String postalcode, String country, Period period) {
+    public Address(UseCode use, TypeCode type, String text, String line, String city, String district, String state, String postalcode, String country, Period period) {
         this.use = use;
         this.type = type;
         this.text = text;
@@ -23,33 +27,44 @@ public class Address extends Element {
         this.period = period;
     }
 
-    public enum useEnum{
+    
+    
+    public enum UseCode{
         home, work, temp, old, billing
     }
 
-    public enum typeEnum{
+    public enum TypeCode{
         postal, physical, both
     }
 
-    @Column(name="a_use")
-    private useEnum use;
-    @Column(name="a_type")
-    private typeEnum type;
+    @Enumerated(EnumType.STRING)
+    private UseCode use;
+    
+    @Enumerated(EnumType.STRING)
+    private TypeCode type;
+    
     @Column(name="a_text")
     private String text;
+    
     @Column(name="a_line")
     private String line;
+    
     @Column(name="a_city")
     private String city;
+    
     @Column(name="a_district")
     private String district;
+
     @Column(name="a_state")
     private String state;
+    
     @Column(name="a_postalcode")
     private String postalcode;
+    
     @Column(name="a_country")
     private String country;
-    @Column(name="a_period")
+
+    @Embedded
     private Period period;
 
     @Override

@@ -1,11 +1,11 @@
 package at.spg.model;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 public class Qualification extends BackboneElement {
-    public Qualification(Set<Identifier> identifier, CodeableConcept code, Period period) {
+    public Qualification(List<Identifier> identifier, CodeableConcept code, Period period) {
         this.identifier = identifier;
         this.code = code;
         this.period = period;
@@ -14,20 +14,22 @@ public class Qualification extends BackboneElement {
     public Qualification() {
     }
 
-    @OneToMany(cascade = CascadeType.ALL,targetEntity = Identifier.class,fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL,targetEntity = Identifier.class )
     @JoinColumn(name = "i_qualification_fk", referencedColumnName = "id")
-    private Set<Identifier> identifier;
+    private List<Identifier> identifier;
+    
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="q_codeableconcept_fk", referencedColumnName="id")
     private CodeableConcept code;
+    
     @Embedded
     private Period period;
 
-    public Set<Identifier> getIdentifier() {
+    public List<Identifier> getIdentifier() {
         return identifier;
     }
 
-    public void setIdentifier(Set<Identifier> identifier) {
+    public void setIdentifier(List<Identifier> identifier) {
         this.identifier = identifier;
     }
 

@@ -1,8 +1,9 @@
 package at.spg.model;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -14,7 +15,7 @@ public class Patient extends DomainResource{
 		super();
 	}
 
-	public Patient(boolean active, GenderCode gender, LocalDate birthDate, Set<Identifier> identifier, Set<HumanName> name, Set<ContactPoint> telecom, boolean deceasedBoolean, Set<Address> addresses, Set<Attachment> photos) {
+	public Patient(boolean active, GenderCode gender, LocalDate birthDate, List<Identifier> identifier, List<HumanName> name, List<ContactPoint> telecom, boolean deceasedBoolean, List<Address> addresses, List<Attachment> photos) {
 		this.active = active;
 		this.gender = gender;
 		this.birthDate = birthDate;
@@ -40,17 +41,17 @@ public class Patient extends DomainResource{
 	@Column(name="p_birthdate")
 	private LocalDate birthDate;
 
-	@OneToMany(cascade = CascadeType.ALL,targetEntity = Identifier.class)
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "i_patient_fk", referencedColumnName = "id")     
-	private Set<Identifier> identifier;
+	private List<Identifier> identifier;
 
-	@OneToMany(cascade = CascadeType.ALL, targetEntity = HumanName.class)
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "hn_patient_fk", referencedColumnName = "id")
-	private Set<HumanName> name;
+	private List<HumanName> name;
 
-	@OneToMany(cascade = CascadeType.ALL, targetEntity = ContactPoint.class)
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "cp_patient_fk", referencedColumnName = "id")
-	private Set<ContactPoint> telecom;
+	private List<ContactPoint> telecom;
 
 	@Column(name="p_deceasedBoolean")
 	private boolean deceasedBoolean;
@@ -58,13 +59,13 @@ public class Patient extends DomainResource{
 	//@Column(name="p_deceasedDateTime")
 	//private LocalDate deceaseDateTime;
 
-	@OneToMany(cascade = CascadeType.ALL, targetEntity = Address.class)
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "a_patient_fk", referencedColumnName = "id")
-	private Set<Address> addresses;
+	private List<Address> addresses;
 
-	@OneToMany(cascade = CascadeType.ALL, targetEntity = Attachment.class)
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "at_patient_fk", referencedColumnName = "id")
-	private Set<Attachment> photos;
+	private List<Attachment> photos;
 
 	public boolean isActive() {
 		return active;
@@ -90,27 +91,27 @@ public class Patient extends DomainResource{
 		this.birthDate = birthDate;
 	}
 
-	public Set<Identifier> getIdentifier() {
+	public List<Identifier> getIdentifier() {
 		return identifier;
 	}
 
-	public void setIdentifier(Set<Identifier> identifier) {
+	public void setIdentifier(List<Identifier> identifier) {
 		this.identifier = identifier;
 	}
 
-	public Set<HumanName> getName() {
+	public List<HumanName> getName() {
 		return name;
 	}
 
-	public void setName(Set<HumanName> name) {
+	public void setName(List<HumanName> name) {
 		this.name = name;
 	}
 
-	public Set<ContactPoint> getTelecom() {
+	public List<ContactPoint> getTelecom() {
 		return telecom;
 	}
 
-	public void setTelecom(Set<ContactPoint> telecom) {
+	public void setTelecom(List<ContactPoint> telecom) {
 		this.telecom = telecom;
 	}
 
@@ -130,19 +131,19 @@ public class Patient extends DomainResource{
 	//	this.deceaseDateTime = deceaseDateTime;
 	//}
 
-	public Set<Address> getAddresses() {
+	public List<Address> getAddresses() {
 		return addresses;
 	}
 
-	public void setAddresses(Set<Address> addresses) {
+	public void setAddresses(List<Address> addresses) {
 		this.addresses = addresses;
 	}
 
-	public Set<Attachment> getPhotos() {
+	public List<Attachment> getPhotos() {
 		return photos;
 	}
 
-	public void setPhotos(Set<Attachment> photos) {
+	public void setPhotos(List<Attachment> photos) {
 		this.photos = photos;
 	}
 

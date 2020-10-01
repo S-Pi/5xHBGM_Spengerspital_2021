@@ -18,6 +18,7 @@ public class Extension extends Element{
 
     @Column(name="url")
     private String url;
+    
     @ElementCollection
     public List<String> value;
 

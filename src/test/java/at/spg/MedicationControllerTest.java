@@ -13,8 +13,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -39,9 +39,9 @@ public class MedicationControllerTest {
     @Test
     @Transactional
     public void createMedication() throws Exception{
-        Set<Identifier> identifiers = new HashSet<>();
-        Set<Coding> codings = new HashSet<>();
-        Set<Ingredient> ingredients = new HashSet<>();
+        List<Identifier> identifiers = new ArrayList<>();
+        List<Coding> codings = new ArrayList<>();
+        List<Ingredient> ingredients = new ArrayList<>();
 
         codings.add(new Coding("System", "0.1.2", "Code", "<div>...<div>", false));
         Period period = new Period(LocalDateTime.of(2000, 01,01,1,1), LocalDateTime.of(2001,01,01,1,1));
@@ -56,7 +56,7 @@ public class MedicationControllerTest {
         LocalDateTime ldt = LocalDateTime.of(2010, 01,01,1,1);
         Batch b1 = new Batch("123a", ldt);
 
-        Medication m1 = new Medication(identifiers, ccType, Medication.statusEnum.active, r1, ccType, rat1, ingredients, b1);
+        Medication m1 = new Medication(identifiers, ccType, Medication.StatusEnum.active, r1, ccType, rat1, ingredients, b1);
         var json = om.writeValueAsString(m1);
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/api/medication")

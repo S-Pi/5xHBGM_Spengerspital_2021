@@ -1,12 +1,12 @@
 package at.spg.model;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 public class Participant extends BackboneElement{
 
-    public Participant(Set<CodeableConcept> type, Period period, Reference individual) {
+    public Participant(List<CodeableConcept> type, Period period, Reference individual) {
         this.type = type;
         this.period = period;
         this.individual = individual;
@@ -17,19 +17,21 @@ public class Participant extends BackboneElement{
 
     @OneToMany(cascade = CascadeType.ALL,targetEntity = CodeableConcept.class)
     @JoinColumn(name = "cc_participant_fk", referencedColumnName = "id")
-    private Set<CodeableConcept> type;
-    @Column(name="period")
+    private List<CodeableConcept> type;
+    
+    @Embedded
     private Period period;
+    
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="part_reference_fk", referencedColumnName="id")
     private Reference individual;
 
 
-    public Set<CodeableConcept> getType() {
+    public List<CodeableConcept> getType() {
         return type;
     }
 
-    public void setType(Set<CodeableConcept> type) {
+    public void setType(List<CodeableConcept> type) {
         this.type = type;
     }
 

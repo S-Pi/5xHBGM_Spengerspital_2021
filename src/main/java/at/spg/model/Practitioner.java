@@ -3,11 +3,11 @@ package at.spg.model;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Objects;
-import java.util.Set;
+import java.util.List;
 @Entity
 public class Practitioner extends DomainResource {
 
-    public Practitioner(Set<Identifier> identifier, boolean active, Set<HumanName> name, Set<ContactPoint> telecom, Set<Address> address, GenderCode gender, LocalDate birthDate, Set<Attachment> photo, Set<CodeableConcept> communication) {
+    public Practitioner(List<Identifier> identifier, boolean active, List<HumanName> name, List<ContactPoint> telecom, List<Address> address, GenderCode gender, LocalDate birthDate, List<Attachment> photo, List<CodeableConcept> communication) {
         this.identifier = identifier;
         this.active = active;
         this.name = name;
@@ -28,39 +28,48 @@ public class Practitioner extends DomainResource {
 
     @OneToMany(cascade = CascadeType.ALL,targetEntity = Identifier.class)
     @JoinColumn(name = "i_practitioner_fk", referencedColumnName = "id")
-    private Set<Identifier> identifier;
+    private List<Identifier> identifier;
+    
     @Column(name="active")
     private boolean active;
+    
     @OneToMany(cascade = CascadeType.ALL, targetEntity = HumanName.class)
     @JoinColumn(name = "hn_practitioner_fk", referencedColumnName = "id")
-    private Set<HumanName> name;
+    private List<HumanName> name;
+    
     @OneToMany(cascade = CascadeType.ALL, targetEntity = ContactPoint.class)
     @JoinColumn(name = "cp_practitioner_fk", referencedColumnName = "id")
-    private Set<ContactPoint> telecom;
+    private List<ContactPoint> telecom;
+    
     @OneToMany(cascade = CascadeType.ALL, targetEntity = Address.class)
     @JoinColumn(name = "a_practitioner_fk", referencedColumnName = "id")
-    private Set<Address> address;
+    private List<Address> address;
+    
     @Enumerated(EnumType.STRING)
     @Column(name="gender")
     private GenderCode gender;
+    
     @Column(name="birthdate")
     private LocalDate birthDate;
+    
     @OneToMany(cascade = CascadeType.ALL, targetEntity = Attachment.class)
     @JoinColumn(name = "at_practitioner_fk", referencedColumnName = "id")
-    private Set<Attachment> photo;
+    private List<Attachment> photo;
+    
     @OneToMany(cascade = CascadeType.ALL, targetEntity = CodeableConcept.class)
     @JoinColumn(name = "cc_practitioner_fk", referencedColumnName = "id")
-    private Set<CodeableConcept> communication;
+    private List<CodeableConcept> communication;
+    
     @OneToMany(cascade = CascadeType.ALL, targetEntity = Qualification.class)
     @JoinColumn(name = "q_practitioner_fk", referencedColumnName = "id")
-    private Set<Qualification> qualifications;
+    private List<Qualification> qualifications;
 
 
-    public Set<Identifier> getIdentifier() {
+    public List<Identifier> getIdentifier() {
         return identifier;
     }
 
-    public void setIdentifier(Set<Identifier> identifier) {
+    public void setIdentifier(List<Identifier> identifier) {
         this.identifier = identifier;
     }
 
@@ -72,27 +81,27 @@ public class Practitioner extends DomainResource {
         this.active = active;
     }
 
-    public Set<HumanName> getName() {
+    public List<HumanName> getName() {
         return name;
     }
 
-    public void setName(Set<HumanName> name) {
+    public void setName(List<HumanName> name) {
         this.name = name;
     }
 
-    public Set<ContactPoint> getTelecom() {
+    public List<ContactPoint> getTelecom() {
         return telecom;
     }
 
-    public void setTelecom(Set<ContactPoint> telecom) {
+    public void setTelecom(List<ContactPoint> telecom) {
         this.telecom = telecom;
     }
 
-    public Set<Address> getAddress() {
+    public List<Address> getAddress() {
         return address;
     }
 
-    public void setAddress(Set<Address> address) {
+    public void setAddress(List<Address> address) {
         this.address = address;
     }
 
@@ -112,27 +121,27 @@ public class Practitioner extends DomainResource {
         this.birthDate = birthDate;
     }
 
-    public Set<Attachment> getPhoto() {
+    public List<Attachment> getPhoto() {
         return photo;
     }
 
-    public void setPhoto(Set<Attachment> photo) {
+    public void setPhoto(List<Attachment> photo) {
         this.photo = photo;
     }
 
-    public Set<CodeableConcept> getCommunication() {
+    public List<CodeableConcept> getCommunication() {
         return communication;
     }
 
-    public void setCommunication(Set<CodeableConcept> communication) {
+    public void setCommunication(List<CodeableConcept> communication) {
         this.communication = communication;
     }
 
-    public Set<Qualification> getQualifications() {
+    public List<Qualification> getQualifications() {
         return qualifications;
     }
 
-    public void setQualifications(Set<Qualification> qualifications) {
+    public void setQualifications(List<Qualification> qualifications) {
         this.qualifications = qualifications;
     }
 

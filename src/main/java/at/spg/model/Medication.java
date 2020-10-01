@@ -1,7 +1,7 @@
 package at.spg.model;
 
 import javax.persistence.*;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 public class Medication extends DomainResource{
@@ -10,7 +10,7 @@ public class Medication extends DomainResource{
     }
 
 
-    public Medication(Set<Identifier> identifier, CodeableConcept code, statusEnum status, Reference manufacturer, CodeableConcept form, Ratio amount, Set<Ingredient> ingredients, Batch batch) {
+    public Medication(List<Identifier> identifier, CodeableConcept code, StatusEnum status, Reference manufacturer, CodeableConcept form, Ratio amount, List<Ingredient> ingredients, Batch batch) {
         this.identifier = identifier;
         this.code = code;
         this.status = status;
@@ -21,20 +21,20 @@ public class Medication extends DomainResource{
         this.batch = batch;
     }
 
-    public enum statusEnum{
+    public enum StatusEnum{
         active, inactive, enteredInError
     }
 
     @OneToMany(cascade = CascadeType.ALL,targetEntity = Identifier.class)
     @JoinColumn(name = "i_medication_fk", referencedColumnName = "id")
-    private Set<Identifier> identifier;
+    private List<Identifier> identifier;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="med_code_fk", referencedColumnName="id")
     private CodeableConcept code;
 
     @Enumerated(EnumType.STRING)
-    private statusEnum status;
+    private StatusEnum status;
 
     @OneToOne(cascade = CascadeType.ALL,targetEntity = Reference.class)
     @JoinColumn(name = "med_manufacturer_reference_fk", referencedColumnName = "id")
@@ -50,17 +50,17 @@ public class Medication extends DomainResource{
 
     @OneToMany(cascade = CascadeType.ALL,targetEntity = Ingredient.class)
     @JoinColumn(name = "ind_medication_fk", referencedColumnName = "id")
-    private Set<Ingredient> ingredients;
+    private List<Ingredient> ingredients;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="med_bat_fk", referencedColumnName="id")
     private Batch batch;
 
-    public Set<Identifier> getIdentifier() {
+    public List<Identifier> getIdentifier() {
         return identifier;
     }
 
-    public void setIdentifier(Set<Identifier> identifier) {
+    public void setIdentifier(List<Identifier> identifier) {
         this.identifier = identifier;
     }
 
@@ -72,11 +72,11 @@ public class Medication extends DomainResource{
         this.code = code;
     }
 
-    public statusEnum getStatus() {
+    public StatusEnum getStatus() {
         return status;
     }
 
-    public void setStatus(statusEnum status) {
+    public void setStatus(StatusEnum status) {
         this.status = status;
     }
 
@@ -100,11 +100,11 @@ public class Medication extends DomainResource{
         return amount;
     }
 
-    public Set<Ingredient> getIngredients() {
+    public List<Ingredient> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(Set<Ingredient> ingredients) {
+    public void setIngredients(List<Ingredient> ingredients) {
         this.ingredients = ingredients;
     }
 
