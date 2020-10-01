@@ -34,24 +34,24 @@ public class Quantity extends Element{
         }
 
         public String toString() {
-            return this.value; //will return , or ' instead of COMMA or APOSTROPHE
+            return this.value; //will return , or ' instead of COMMA or APOSTROPHE the right syntax to
         }
 
     }
 
-    @Column(name="value")
+    @Column(name="q_value")
     private double value;
     
     @Enumerated(EnumType.STRING)
     private ComparatorCode comperator;
     
-    @Column(name="unit")
+    @Column(name="q_unit")
     private String unit;
     
-    @Column(name="system")
+    @Column(name="q_system")
     private String system;
     
-    @Column(name="code")
+    @Column(name="q_code")
     private String code;
 
     public double getValue() {

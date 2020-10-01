@@ -5,10 +5,14 @@ import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Objects;
 
 @Entity
+@Table(name="a_address")
 public class Address extends Element {
 
     public Address() {
@@ -38,9 +42,11 @@ public class Address extends Element {
     }
 
     @Enumerated(EnumType.STRING)
+    @Column(name="a_use")
     private UseCode use;
     
     @Enumerated(EnumType.STRING)
+    @Column(name="a_type")
     private TypeCode type;
     
     @Column(name="a_text")

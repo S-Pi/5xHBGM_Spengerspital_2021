@@ -1,6 +1,7 @@
 package at.spg.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.List;
@@ -43,15 +44,15 @@ public class Patient extends DomainResource{
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "i_patient_fk", referencedColumnName = "id")     
-	private List<Identifier> identifier;
+	private List<Identifier> identifier = new ArrayList<>();
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "hn_patient_fk", referencedColumnName = "id")
-	private List<HumanName> name;
+	private List<HumanName> name = new ArrayList<>();
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "cp_patient_fk", referencedColumnName = "id")
-	private List<ContactPoint> telecom;
+	private List<ContactPoint> telecom = new ArrayList<>();
 
 	@Column(name="p_deceasedBoolean")
 	private boolean deceasedBoolean;
@@ -61,11 +62,11 @@ public class Patient extends DomainResource{
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "a_patient_fk", referencedColumnName = "id")
-	private List<Address> addresses;
+	private List<Address> addresses = new ArrayList<>();
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "at_patient_fk", referencedColumnName = "id")
-	private List<Attachment> photos;
+	private List<Attachment> photos = new ArrayList<>();
 
 	public boolean isActive() {
 		return active;

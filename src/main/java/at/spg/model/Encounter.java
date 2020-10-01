@@ -2,6 +2,7 @@ package at.spg.model;
 
 import javax.persistence.*;
 import java.util.Objects;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -51,47 +52,46 @@ public class Encounter extends DomainResource {
         }
     }
 	
-	@OneToMany(cascade = CascadeType.ALL, targetEntity = Identifier.class)
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "i_encounter_fk", referencedColumnName = "id")
-	private List<Identifier> identifier;
+	private List<Identifier> identifier = new ArrayList<>();
 	
 	@Enumerated(EnumType.STRING)
 	private StatusCode status;
 	
-	@OneToMany(cascade = CascadeType.ALL, targetEntity = StatusHistory.class)
-	@JoinColumn(name = "en_statushistory_fk", referencedColumnName = "id")
-	private List<StatusHistory> statusHistory;
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "sh_encounter_fk", referencedColumnName = "id")
+	private List<StatusHistory> statusHistory = new ArrayList<>();
 	
-	@OneToMany(cascade = CascadeType.ALL, targetEntity = CodeableConcept.class)
-	@JoinColumn(name = "en_codeableconcept_fk", referencedColumnName = "id")
-	private List<CodeableConcept> type;
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "cc_encounter_fk", referencedColumnName = "id")
+	private List<CodeableConcept> type = new ArrayList<>();
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "enc_subject_reference_fk", referencedColumnName = "id")
 	private Reference subject;
 	
-	@OneToMany(cascade = CascadeType.ALL, targetEntity = Reference.class)
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "enc_epOfCa_reference_fk", referencedColumnName = "id")
-	private List<Reference> episodeOfCare;
+	private List<Reference> episodeOfCare = new ArrayList<>();
 	
-	@OneToMany(cascade = CascadeType.ALL, targetEntity = Participant.class)
+	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "part_encounter_fk", referencedColumnName = "id")
-	private List<Participant> participant;
+	private List<Participant> participant = new ArrayList<>();
 	
-	@OneToMany(cascade = CascadeType.ALL, targetEntity = Reference.class)
-	@JoinColumn(name = "enc_appointment_reference_fk", referencedColumnName = "id")
-	private List<Reference> appointment;
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "ref_encounter_appointment_fk", referencedColumnName = "id")
+	private List<Reference> appointment = new ArrayList<>();
 	
-	@Column(name = "period")
+	@Embedded
 	private Period period;
 	
-	@OneToMany(cascade = CascadeType.ALL, targetEntity = Reference.class)
-	@JoinColumn(name = "enc_reason_reference_fk", referencedColumnName = "id")
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "ref_encounter_reason_fk", referencedColumnName = "id")
 	private List<Reference> reasonReference;
 	
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "enc_diagnosis_fk", referencedColumnName = "id")
-	
+	@JoinColumn(name = "dia_encounter_fk", referencedColumnName = "id")	
 	private List<Diagnosis> diagnosis;
 
 	@OneToOne(cascade = CascadeType.ALL)

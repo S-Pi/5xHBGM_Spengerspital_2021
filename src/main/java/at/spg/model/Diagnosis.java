@@ -2,10 +2,13 @@ package at.spg.model;
 
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 @Entity
-@Table(name="diagnosis")
+@Table(name="d_diagnosis")
 public class Diagnosis extends BackboneElement{
     public Diagnosis(List<Reference> condition, CodeableConcept use, int rank) {
         this.condition = condition;
@@ -24,7 +27,7 @@ public class Diagnosis extends BackboneElement{
     @JoinColumn(name="diag_codeableconcept_fk", referencedColumnName="id")
     private CodeableConcept use;
     
-    @Column(name="rank")
+    @Column(name="d_rank")
     private int rank;
 
     public List<Reference> getCondition() {
