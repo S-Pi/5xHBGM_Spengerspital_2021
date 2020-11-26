@@ -24,26 +24,8 @@ public class PatientRepositoryTest {
     @Transactional
      public void testSaveOnePatient(){
     //1. Erstellen einer Patienteninstanz
-    List<Identifier> identifiers = new ArrayList<>();
-    List<Coding> codings = new ArrayList<>();
-    List<ContactPoint> contactPoints = new ArrayList<>();
-    List<HumanName> names = new ArrayList<>();
-    List<Attachment> photos = new ArrayList<>();
-    List<Address> address = new ArrayList<>();
-    List<String> prefixes = null;
-    List<String> suffixes = null;
-    codings.add(new Coding("System", "0.1.1", "Code", "<div>...<div>", false));
-    Period period = new Period(LocalDateTime.of(2000, 01,01,1,1), LocalDateTime.of(2001,01,01,1,1));
-    Period period2 = new Period(LocalDateTime.of(2000, 02,02,2,2), LocalDateTime.of(2002,02,02,2,2));
-    CodeableConcept ccType = new CodeableConcept(codings, "Text");
-    identifiers.add(new Identifier(Identifier.UseCode.official,ccType, "System", "value", period));
-    contactPoints.add(new ContactPoint(ContactPoint.SystemCode.phone, "123454321", ContactPoint.UseCode.home, 1, period2));
-    //prefixes.add("Haupsache nicht null");
-    //suffixes.add("Hauptsache was drin");
-    names.add(new HumanName(HumanName.UseCode.usual, "Text", "Mustermann", "given", period));
-    address.add(new Address(Address.UseCode.home, Address.TypeCode.physical, "Text", "Line", "Vienna", "1050", "Vienna", "1050", "Austria", period));
-    Patient p = new Patient(true, Patient.GenderCode.female, LocalDate.of(2000, 01, 01), identifiers,names , contactPoints, false, address, photos);
-    //2. Instanz mit Testdaten befüllen
+    Patient p = returnOnePatient();
+        //2. Instanz mit Testdaten befüllen
     // ..erledigt
     //3. Instanz in die DB speichern
     Patient savedP = patientRepository.save(p);
@@ -60,6 +42,29 @@ public class PatientRepositoryTest {
     assertTrue(CollectionUtils.isEqualCollection(p.getAddresses(), loadedPatient.getAddresses()));
     assertTrue(CollectionUtils.isEqualCollection(p.getPhotos(), loadedPatient.getPhotos()));
     //reicht, da der Patient eine überschriebene Equals-Methode hat
+
+    }
+
+    public static Patient returnOnePatient(){
+        List<Identifier> identifiers = new ArrayList<>();
+        List<Coding> codings = new ArrayList<>();
+        List<ContactPoint> contactPoints = new ArrayList<>();
+        List<HumanName> names = new ArrayList<>();
+        List<Attachment> photos = new ArrayList<>();
+        List<Address> address = new ArrayList<>();
+        List<String> prefixes = null;
+        List<String> suffixes = null;
+        codings.add(new Coding("System", "0.1.1", "Code", "<div>...<div>", false));
+        Period period = new Period(LocalDateTime.of(2000, 01,01,1,1), LocalDateTime.of(2001,01,01,1,1));
+        Period period2 = new Period(LocalDateTime.of(2000, 02,02,2,2), LocalDateTime.of(2002,02,02,2,2));
+        CodeableConcept ccType = new CodeableConcept(codings, "Text");
+        identifiers.add(new Identifier(Identifier.UseCode.official,ccType, "System", "value", period));
+        contactPoints.add(new ContactPoint(ContactPoint.SystemCode.phone, "123454321", ContactPoint.UseCode.home, 1, period2));
+        //prefixes.add("Haupsache nicht null");
+        //suffixes.add("Hauptsache was drin");
+        names.add(new HumanName(HumanName.UseCode.usual, "Text", "Mustermann", "given", period));
+        address.add(new Address(Address.UseCode.home, Address.TypeCode.physical, "Text", "Line", "Vienna", "1050", "Vienna", "1050", "Austria", period));
+        return new Patient(true, Patient.GenderCode.female, LocalDate.of(2000, 01, 01), identifiers,names , contactPoints, false, address, photos);
 
     }
 }
