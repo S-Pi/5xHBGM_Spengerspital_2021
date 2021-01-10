@@ -11,6 +11,7 @@ import java.net.URI;
 
 @RequestMapping(path = "/api/patient")
 @RestController
+@CrossOrigin
 public class PatientController {
 
     @Autowired

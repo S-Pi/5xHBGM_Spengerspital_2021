@@ -36,6 +36,45 @@ public class ContactPoint extends Element{
     private int rank;
     @Embedded
     private Period period;
+	public SystemCode getSystemEnum() {
+		return systemEnum;
+	}
+
+	public void setSystemEnum(SystemCode systemEnum) {
+		this.systemEnum = systemEnum;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+
+	public UseCode getUseEnum() {
+		return useEnum;
+	}
+
+	public void setUseEnum(UseCode useEnum) {
+		this.useEnum = useEnum;
+	}
+
+	public int getRank() {
+		return rank;
+	}
+
+	public void setRank(int rank) {
+		this.rank = rank;
+	}
+
+	public Period getPeriod() {
+		return period;
+	}
+
+	public void setPeriod(Period period) {
+		this.period = period;
+	}
 
     
 }
